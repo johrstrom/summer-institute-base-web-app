@@ -1,0 +1,97 @@
+<div id="image_carousel" class="carousel slide my-3" data-ride="carousel">
+    <ol id="image_carousel_indicators" class="carousel-indicators">
+        
+        <%- @images.each_with_index do |_, index| -%>
+        <li data-slide-to="<%= index %>" 
+            class="<%= index == 0 ? 'active' : nil %>"
+            data-target="#image_carousel">
+        </li>
+        <%- end -%>
+        
+    </ol>
+    
+    <div id="image_carousel_inner" class="carousel-inner">
+        
+        <%- @images.each_with_index do |image, index| -%>
+        <div class="carousel-item <%= index == 0 ? 'active' : nil %>"
+             id="<%= File.basename(image) %>">
+
+            <img class="d-block w-100" src="/pun/sys/dashboard/files/fs<%= image %>">
+        </div>
+        <%- end -%>
+        
+    </div> <!-- carousel-inner -->
+    
+    <a  class="carousel-control-prev" href="#image_carousel" 
+        role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    
+    <a class="carousel-control-next" href="#image_carousel" 
+       role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+    
+    
+</div>
+
+<form method="post" action="<%= url('/render/frames') %>">
+    
+    <div class="row">
+
+        <div class="form-group col-6">
+            <label for="account">Account</label>
+            <select name="account" class="form-control">
+                
+                <%- accounts.each do |account| -%>
+                <option><%= account %></option>
+                <%- end -%>
+                
+            </select>
+        </div>
+
+        <div class="form-group col-6">
+            <label for="blend_file">Blend File</label>
+            <select name="blend_file" class="form-control">
+                
+                <%- blend_files.each do |file| -%>
+                <option value="<%= file %>"><%= File.basename(file) %></option>
+                <%- end -%>
+                
+            </select>  
+        </div>
+
+        <div class="form-group col-4">
+            <label for="num_cpus">CPUs</label>
+            <input class="form-control" name="num_cpus" type="number" min="4" max="48" value="4">
+            <small class="form-text text-muted">More CPUs means less rendering time</small>
+        </div>
+    
+        <div class="form-group col-4">
+            <label for="frame_range">Frame Range</label>
+            <input class="form-control" name="frame_range" type="text">
+            <small class="form-text text-muted">1..N renders frames 1-N or 1,N,M will render frames 1, N and M</small>
+        </div>
+    
+        <div class="form-group col-4">
+            <label for="walltime">Walltime</label>
+            <input class="form-control" name="walltime" type="number" min="1" max="48" value="1">  
+            <small class="form-text text-muted">Hours the job will run</small>
+        </div>   
+        
+    </div> <!-- row -->
+
+    
+    <input name="project_directory" type="hidden" value="<%= @directory %>">
+    
+    <button class="btn btn-primary float-right">Render Frames</button>
+    
+</form>
+
+
+<div class="d-none" id="project_config" data-directory="<%= @directory %>" ></div>
+
+
+
