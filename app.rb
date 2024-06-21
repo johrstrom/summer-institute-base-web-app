@@ -61,6 +61,23 @@ class App < Sinatra::Base
     
     redirect(url("/projects/#{File.basename(params[:project_directory])}"))
   end
+  
+  post '/render/video' do
+    
+    walltime = format('%02d:00:00', params[:walltime])
+    script = "#{__dir__}/scripts/render_video.sh"
+    exports = "FRAMES_PER_SEC=#{params[:frames_per_second]}"
+    exports = "#{exports},OUTPUT_DIR=#{params[:project_directory]}"
+    
+    args = ['-A', params[:account], '-n', params[:num_cpus]]
+    args.concat(['-M', 'pitzer', '--parsable'])
+    args.concat(['-t', walltime, '--export', exports])
+    
+    output = `/bin/sbatch #{args.join(' ')} #{script} 2>&1`
+    
+    session[:flash] = { info: "Submited job with output: '#{output}'" }
+    redirect(url("/projects/#{File.basename(params[:project_directory])}"))
+  end
 
 
   get '/examples' do

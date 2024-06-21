@@ -6,7 +6,7 @@
     <ul class="list-group list-group-horizontal col-md-12 flex-wrap">
         
     <%- projects.each do |project| -%>
-        <li class="list-group-item m-3 btn btn-outline-dark border">
+        <li class="cool-border list-group-item m-3 btn">
             <a href="<%= url("/projects/#{project}") %>">
                 <i class="fas fa-camera-retro fa-5x"></i>
                 <p><%= project.gsub('_', ' ').capitalize %></p>

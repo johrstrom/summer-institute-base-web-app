@@ -1,4 +1,3 @@
-
 window.onload = (event) => {
   updateCarousel();
 };
@@ -31,6 +30,7 @@ function updateCarousel() {
           .then((json) => json['files'])
           .then((files) => files.map((file) => file['name']))
           .then((files) => files.filter((file) => file.endsWith('png')))
+          .then((files) => files.splice(0, 9))
           .then((files) => {
               
                 for(const file of files) {

@@ -1,0 +1,13 @@
+
+
+.cool-border {
+    border-width: 7px !important;
+    border-color: burlywood !important;
+    border-radius: .5rem !important;
+}
+
+.cool-border:hover {
+    border-color: red !important;
+    background-color: black;
+    transform: scale(1.1);
+}
